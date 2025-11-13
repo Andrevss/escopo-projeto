@@ -153,6 +153,16 @@ public class Derivador {
                 return new ValorInteiro(v);
             }
 
+            // Simplificação adicional: x + x -> 2 * x
+            if (esq instanceof Id && dir instanceof Id) {
+                Id idEsq = (Id) esq;
+                Id idDir = (Id) dir;
+                if (idEsq.getIdName().equals(idDir.getIdName())) {
+                    // Exemplo: x + x -> 2 * x
+                    return new ExpMult(new ValorInteiro(2), esq);
+                }
+            }
+
             return new ExpSoma(esq, dir);
         }
 

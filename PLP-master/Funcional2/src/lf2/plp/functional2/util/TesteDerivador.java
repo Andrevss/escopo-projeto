@@ -14,7 +14,7 @@ public class TesteDerivador {
         // f(x) = 2*x + 3
         Expressao f =
             new ExpSoma(
-                new ExpMult(new ValorInteiro(2), new Id("x")),
+                new ExpMult(new Id("x"), new Id("x")),
                 new ValorInteiro(3)
             );
 
