@@ -13,11 +13,18 @@ public class TesteDerivador {
     public static void main(String[] args) {
         // f(x) = 2*x + 3
         Expressao f =
+            // new ExpSoma(
+            //     new ExpMult(new Id("x"), new Id("x")),
+            //     new ValorInteiro(3)s
+            // );
+            // Encontrei essa simplificação não feita, o resultado abaixo fica f'(x) = 2*x + 2*x
             new ExpSoma(
-                new ExpMult(new Id("x"), new Id("x")),
+                new ExpSoma(
+                    new ExpMult(new Id("x"), new Id("x")),
+                    new ExpMult(new Id("x"), new Id("x"))
+                ),
                 new ValorInteiro(3)
             );
-
         Expressao df = Derivador.derivarESimplificar(f, "x");
 
         System.out.println("f(x)  = " + f);

@@ -134,6 +134,52 @@ public class Derivador {
             Expressao esq = simplificar(s.getEsq());
             Expressao dir = simplificar(s.getDir());
 
+            if (esq instanceof ExpMult && dir instanceof ExpMult) {
+                ExpMult m1 = (ExpMult) esq;
+                ExpMult m2 = (ExpMult) dir;
+
+                Integer c1 = null;
+                Integer c2 = null;
+                Id x1 = null;
+                Id x2 = null;
+
+                // Tenta extrair "coeficiente * variável" de m1
+                if (m1.getEsq() instanceof ValorInteiro && m1.getDir() instanceof Id) {
+                    c1 = ((ValorInteiro) m1.getEsq()).valor();
+                    x1 = (Id) m1.getDir();
+                } else if (m1.getDir() instanceof ValorInteiro && m1.getEsq() instanceof Id) {
+                    c1 = ((ValorInteiro) m1.getDir()).valor();
+                    x1 = (Id) m1.getEsq();
+                }
+
+                // Tenta extrair "coeficiente * variável" de m2
+                if (m2.getEsq() instanceof ValorInteiro && m2.getDir() instanceof Id) {
+                    c2 = ((ValorInteiro) m2.getEsq()).valor();
+                    x2 = (Id) m2.getDir();
+                } else if (m2.getDir() instanceof ValorInteiro && m2.getEsq() instanceof Id) {
+                    c2 = ((ValorInteiro) m2.getDir()).valor();
+                    x2 = (Id) m2.getEsq();
+                }
+
+                // Se ambos são "coef * x" com o MESMO identificador:
+                if (c1 != null && c2 != null && x1 != null && x2 != null &&
+                    x1.getIdName().equals(x2.getIdName())) {
+
+                    int coef = c1 + c2;
+
+                    // Tratar casos especiais do coeficiente
+                    if (coef == 0) {
+                        // 2*x + (-2)*x -> 0
+                        return new ValorInteiro(0);
+                    } else if (coef == 1) {
+                        // 1*x + 0*x -> x 
+                        return x1;
+                    } else {
+                        return new ExpMult(new ValorInteiro(coef), x1);
+                    }
+                }
+            }
+
             // 0 + e -> e
             if (esq instanceof ValorInteiro &&
                 ((ValorInteiro) esq).valor() == 0) {
