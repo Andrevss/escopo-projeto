@@ -170,12 +170,12 @@ SPECIAL_TOKEN : /* COMMENTS */
 TOKEN : /* TOKENS DE FUNCIONAL 2 */
 {
   < AND : "and" >
-| < DERIV : "deriv" >
+/*| < DERIV : "deriv" >
 | < BY : "by" >
 | < GRAD : "grad" >
 | < EVAL : "eval" >
 | < ZEROS : "zeros" >
-| < EXTREMOS : "extremos" >
+| < EXTREMOS : "extremos" > */
 | < OR : "or" >
 | < NOT : "not" >
 | < LENGTH : "length" >
@@ -586,6 +586,7 @@ Expressao PExpCondicional() :
 }
 
 //new rules for derivada, gradiente, avaliacao numerica, zeros e extremos locais
+/*
 Expressao PExpDerivada() :
 {
   Expressao expressao;
@@ -644,7 +645,7 @@ Expressao PExtremosLocais() :
     return new ExpExtremosLocais(expr, vars);
   }
 }
-
+*/
 
 List PListaExpr() :
 {
@@ -671,6 +672,7 @@ List PListaExpr() :
 }
 
 //new rules for assignment and lists of assignments and variables
+/*
 Atribuicao PAtribuicao() :
 {
   Id id;
@@ -720,7 +722,7 @@ List PListaVariaveis() :
     return ids;
   }
 }
-
+*/
 
 Expressao PExpUnaria() :
 {
@@ -741,12 +743,12 @@ Expressao PExpUnaria() :
     retorno = PExpDeclaracao()
   |
   //new lookaheads for derivada and gradiente
-    LOOKAHEAD(PExpDerivada())
-    retorno = PExpDerivada()
-  |
-    LOOKAHEAD(PExpGradiente())
-    retorno = PExpGradiente()
-  |
+  //   LOOKAHEAD(PExpDerivada())
+  //   retorno = PExpDerivada()
+  // |
+  //   LOOKAHEAD(PExpGradiente())
+  //   retorno = PExpGradiente()
+  // |
     LOOKAHEAD(PExpCondicional())
     retorno = PExpCondicional()
   | 
