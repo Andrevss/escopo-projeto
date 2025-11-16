@@ -11,19 +11,20 @@ import lf2.plp.expressions2.expression.ExpMult;
 public class TesteDerivador {
 
     public static void main(String[] args) {
-        // f(x) = 2*x + 3
+        // f(x) = 2* x * x + x + 1
         Expressao f =
-            // new ExpSoma(
-            //     new ExpMult(new Id("x"), new Id("x")),
-            //     new ValorInteiro(3)s
-            // );
-            // Encontrei essa simplificação não feita, o resultado abaixo fica f'(x) = 2*x + 2*x
             new ExpSoma(
                 new ExpSoma(
-                    new ExpMult(new Id("x"), new Id("x")),
-                    new ExpMult(new Id("x"), new Id("x"))
+                    new ExpMult(
+                        new ExpMult(
+                            new ValorInteiro(2),
+                            new Id("x")
+                        ),
+                        new Id("x")
+                    ),
+                    new Id("x")
                 ),
-                new ValorInteiro(3)
+                new ValorInteiro(1)
             );
         Expressao df = Derivador.derivarESimplificar(f, "x");
 

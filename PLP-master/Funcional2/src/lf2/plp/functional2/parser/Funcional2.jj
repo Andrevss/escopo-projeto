@@ -38,6 +38,9 @@ import lf2.plp.expressions2.expression.ExpOr;
 import lf2.plp.expressions2.expression.ExpEquals;
 import lf2.plp.expressions2.expression.ExpConcat;
 
+// Import de multiplicacao implementada no projeto
+import lf2.plp.expressions2.expression.ExpMult;
+
 //Imports da Expressao1
 public class Func2Parser
 {
@@ -800,6 +803,11 @@ Expressao PExpBinaria2() :
       {
         retorno = new ExpSub(retorno, param2);
       }
+    |
+      < STAR > param2 = PExpBinaria3() // <--- Inicialmente não existia a operação de multiplicação
+      {
+        retorno = new ExpMult(retorno, param2);
+      }
     | 
       < OR > param2 = PExpBinaria3()
       {
@@ -838,7 +846,25 @@ Expressao PExpBinaria3() :
     return retorno;
   }
 }
-
+// ********************************************************
+// Adicionei aqui a regra para multiplicação
+Expressao PExpMult() :
+{
+  Expressao retorno, param2;
+}
+{
+  retorno = PExpUnaria()
+  (
+    < STAR > param2 = PExpUnaria()
+    {
+      retorno = new ExpMult(retorno, param2);
+    }
+  )*
+  {
+    return retorno;
+  }
+}
+// ********************************************************
 Expressao PExpressao() :
 {
   Expressao retorno;
