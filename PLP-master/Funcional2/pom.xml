@@ -41,9 +41,9 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
         <configuration>
-          <mainClass>lf2.plp.functional2.parser.Func2Parser</mainClass>
+          <!-- <mainClass>lf2.plp.functional2.parser.Func2Parser</mainClass> -->
           <!-- Mudei a linha abaixo para que possamos, através do comando do maven definir quem sera o main -->
-          <!-- <mainClass>${exec.mainClass}</mainClass> -->
+          <mainClass>${exec.mainClass}</mainClass>
           <commandlineArgs>input</commandlineArgs>
         </configuration>
       </plugin>
