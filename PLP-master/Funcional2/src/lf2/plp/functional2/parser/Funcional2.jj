@@ -170,8 +170,9 @@ SPECIAL_TOKEN : /* COMMENTS */
 TOKEN : /* TOKENS DE FUNCIONAL 2 */
 {
   < AND : "and" >
-/*| < DERIV : "deriv" >
+| < DERIVE : "derive" > // Implementação da derivada simbólica
 | < BY : "by" >
+/*
 | < GRAD : "grad" >
 | < EVAL : "eval" >
 | < ZEROS : "zeros" >
@@ -446,6 +447,8 @@ Expressao PExpLength() :
 Expressao PExpPrimaria() :
 {
   Expressao retorno;
+  Id idFunc; // adição das variáveis locais para derivada
+  Id idVar;
 }
 {
   (
@@ -454,6 +457,10 @@ Expressao PExpPrimaria() :
     retorno = PAplicacao()
   | retorno = PId()
   | < LPAREN > retorno = PExpressao() < RPAREN >
+  | < DERIVE > idFunc = PId() < BY > idVar = PId() // Aqui foi construído o nó da AST para a derivada
+      {
+          retorno = new lf2.plp.functional2.expression.ExpDeriv(idFunc, idVar);
+      }
   )
   {
     return retorno;
