@@ -58,6 +58,10 @@ public class ValorFuncao extends DefFuncao implements ValorAbstrato {
 		
 		return this;
 	}
+
+	public Expressao getCorpo() {
+    	return this.exp; // Onde 'corpo' é a Expressao (x*x) passada no construtor.
+	}
 	
 	public ValorFuncao clone() {
 		ValorFuncao retorno;

@@ -29,6 +29,6 @@ public class TesteDerivador {
         Expressao df = Derivador.derivarESimplificar(f, "x");
 
         System.out.println("f(x)  = " + f);
-        System.out.println("f'(x) = " + df);
+        System.out.println("f'(x) = " + df); 
     }
 }

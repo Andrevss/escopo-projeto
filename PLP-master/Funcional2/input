@@ -1,6 +1,6 @@
-let
+/*let
   var x    =  "x",
   var f    = 2 * (x * x) + x + 1,
   var dfdx = derive f by x
 in
-  dfdx
+  dfdx*/

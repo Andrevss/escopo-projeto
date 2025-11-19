@@ -40,6 +40,7 @@ import lf2.plp.expressions2.expression.ExpConcat;
 
 // Import de multiplicacao implementada no projeto
 import lf2.plp.expressions2.expression.ExpMult;
+import lf2.plp.functional2.expression.ExpDeriv; 
 
 //Imports da Expressao1
 public class Func2Parser
@@ -447,8 +448,7 @@ Expressao PExpLength() :
 Expressao PExpPrimaria() :
 {
   Expressao retorno;
-  Id idFunc; // adição das variáveis locais para derivada
-  Id idVar;
+
 }
 {
   (
@@ -457,10 +457,10 @@ Expressao PExpPrimaria() :
     retorno = PAplicacao()
   | retorno = PId()
   | < LPAREN > retorno = PExpressao() < RPAREN >
-  | < DERIVE > idFunc = PId() < BY > idVar = PId() // Aqui foi construído o nó da AST para a derivada
-      {
-          retorno = new lf2.plp.functional2.expression.ExpDeriv(idFunc, idVar);
-      }
+  /* | < DERIVE > idFunc = PId() < BY > idVar = PId() 
+      {
+          retorno = new lf2.plp.functional2.expression.ExpDeriv(idFunc, idVar);
+      } */
   )
   {
     return retorno;
@@ -593,19 +593,19 @@ Expressao PExpCondicional() :
 }
 
 //new rules for derivada, gradiente, avaliacao numerica, zeros e extremos locais
-/*
+
 Expressao PExpDerivada() :
 {
   Expressao expressao;
   Id variavel;
 }
 {
-  <DERIV> expressao = PExpressao() <BY> variavel = PId()
+  <DERIVE> expressao = PExpressao() <BY> variavel = PId()
   {
-    return new ExpDerivada(expressao, variavel);
+    return new ExpDeriv(expressao, variavel);
   }
 }
-
+/*
 Expressao PExpGradiente() :
 {
   Expressao expressao;
@@ -758,6 +758,9 @@ Expressao PExpUnaria() :
   // |
     LOOKAHEAD(PExpCondicional())
     retorno = PExpCondicional()
+  |
+    LOOKAHEAD(<DERIVE>)
+    retorno = PExpDerivada()
   | 
     LOOKAHEAD(PExpPrimaria())
     retorno = PExpPrimaria()

@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "TesteDerivador",
+            "request": "launch",
+            "mainClass": "lf2.plp.functional2.util.TesteDerivador",
+            "projectName": "Funcional2"
+        },
+        {
+            "type": "java",
             "name": "Debug (Attach)",
             "request": "attach",
             "hostName": "localhost",
