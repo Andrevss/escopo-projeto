@@ -1,3 +1,2 @@
-let fun add x = fn y . x + y in
-   let var id = add(0), var x = 4 in
-      id(1) + x
+let fun f = fn <x,y> . x * y + x in
+    gradiente f (<2,3>)

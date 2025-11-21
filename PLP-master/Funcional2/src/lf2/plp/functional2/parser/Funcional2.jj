@@ -15,6 +15,7 @@ import lf2.plp.functional2.Programa;
 import lf2.plp.functional2.declaration.DecFuncao;
 import lf2.plp.functional1.declaration.DecComposta;
 import lf2.plp.functional2.expression.ValorFuncao;
+import lf2.plp.functional2.expression.ValorVetor;
 import lf2.plp.functional2.expression.ExpDeclaracao;
 import lf2.plp.functional2.expression.Aplicacao;
 //Imports da Funcional1
@@ -173,11 +174,12 @@ TOKEN : /* TOKENS DE FUNCIONAL 2 */
   < AND : "and" >
 | < DERIVE : "derive" > // Implementação da derivada simbólica
 | < BY : "by" >
-/*
 | < GRAD : "grad" >
+/*
 | < EVAL : "eval" >
 | < ZEROS : "zeros" >
-| < EXTREMOS : "extremos" > */
+| < EXTREMOS : "extremos" > 
+*/
 | < OR : "or" >
 | < NOT : "not" >
 | < LENGTH : "length" >
@@ -375,6 +377,22 @@ Valor PValorFuncao() :
   }
 }
 
+Valor PValorVetor() :
+{
+  List elementos = new ArrayList();
+  Expressao e;
+}
+{
+  <LBRACE> 
+    e = PExpressao() { elementos.add(e); }
+    ( <COMMA> e = PExpressao() { elementos.add(e); } )*
+  <RBRACE>
+  {
+    return new ValorVetor(elementos);
+  }
+}
+
+
 Valor PValor() :
 {
   Valor retorno;
@@ -385,6 +403,7 @@ Valor PValor() :
   | retorno = PValorBooleano()
   | retorno = PValorString()
   | retorno = PValorFuncao()
+  | retorno = PValorVetor()
   )
   {
     return retorno;
@@ -594,6 +613,7 @@ Expressao PExpCondicional() :
 
 //new rules for derivada, gradiente, avaliacao numerica, zeros e extremos locais
 
+
 Expressao PExpDerivada() :
 {
   Expressao expressao;
@@ -611,12 +631,13 @@ Expressao PExpGradiente() :
   Expressao expressao;
 }
 {
-  <GRAD> expressao = PExpressao()
-  {
-    return new ExpGradiente(expressao);
-  }
+  <GRAD> "(" expressao = PExpressao() "," vars = PListaVariaveis() ")"
+{
+   return new ExpGradiente(expressao, vars);
+}
 }
 
+/*
 AvaliacaoNumerica ExpAvaliacaoNumerica() :
 {
   Expressao expr;
@@ -719,6 +740,8 @@ List PListaAtribuicoes() :
   }
 }
 
+*/
+
 List PListaVariaveis() :
 {
   List ids;
@@ -729,7 +752,6 @@ List PListaVariaveis() :
     return ids;
   }
 }
-*/
 
 Expressao PExpUnaria() :
 {
